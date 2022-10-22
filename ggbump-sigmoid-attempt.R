@@ -6,8 +6,8 @@ df_x <- tribble(~y, ~yend, ~label_y, ~label_yend,
                 1, 0.5, "BEL-LUX", "LUX",
                 2, 2.5, "E.GER", "DEU",
                 3, 2.5, "W.GER", "DEU",
-                4, 4, "AUS", "AUS",
-) |> dplyr::mutate(x = 0, xend = 5,
+                4, 4, "AUS", "AUS") |>
+  dplyr::mutate(x = 0, xend = 5,
                    idx = row_number())
 
 ggplot(df_x, aes(x = x, xend = xend, y = y, yend = yend, group = idx)) +
