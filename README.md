@@ -23,7 +23,7 @@ This is this mapping function I tried to visualise:
     #> 4 W.GER DEU        1  
     #> 5 AUS   AUS        1
 
-ggplot extensions I experimented with:
+ggplot extensions I experimented with (code in `R/` folder):
 
 -   `{ggraph}`: way too flexible, no sensible way to keep the `from`,
     and `to` nodes lined up. Found some good `{tidygraph}` and
@@ -55,7 +55,7 @@ Aside on errors when reproducing the map with sigmoid curves from
 
 -   [original
     code](https://github.com/davidsjoberg/tidytuesday/blob/master/2020w17/2020w17_skript.R)
-    vs. [modified code for sf \> 1.0](ggbump-sigmoid-map.R)
+    vs. [modified code for sf \> 1.0](R/ggbump-sigmoid-map.R)
 -   need to turn off s2 spherical geometry using `sf_use_s2(FALSE)` –
     see [github issue](https://github.com/r-spatial/sf/issues/1759)
 -   might have been calling the wrong version of `format()` but changing
