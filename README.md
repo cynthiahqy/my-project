@@ -63,6 +63,10 @@ Aside on errors when reproducing the map with sigmoid curves from
 
 ## Visualisation Results
 
+labelled bump plot: [code](R/ggbump-sigmoid-graph-edges.R)
+
 ![labelled bump plot](ggbump-sigmoid-graph-edges.jpg)
+
+sankey flow diagram: [code](R/ggsankey.R)
 
 ![sankey flow diagram](ggsankey.png)
