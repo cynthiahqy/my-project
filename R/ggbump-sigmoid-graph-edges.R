@@ -57,7 +57,9 @@ plt_uw <- df |>
   geom_label(data = filter(df, value_case == "one-to-many"),
              aes(x = (((from_x + to_x) / 2) + to_x) / 2,
                  y = to_y,
-                 label = weighted)) +
+                 label = scales::percent(weighted,5),
+                 alpha = weighted),
+             fill = "gray") +
   geom_label(data = filter(df, value_case == "one-to-one"),
              aes(x = (from_x + to_x) / 4,
                  y = from_y,
@@ -73,7 +75,7 @@ plt_uw <- df |>
         plot.background = element_rect(fill = "white")) +
   labs(x = NULL, y = NULL, fill = "Target", fontface="Source")
 
-plt_uw
+return(plt_uw)
 
 #ggsave("ggbump-sigmoid-graph-edges.jpg", dpi=1000)
 

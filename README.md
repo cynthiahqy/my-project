@@ -73,7 +73,11 @@ labelled sigmoid plot: [code](R/ggbump-sigmoid-graph-edges.R)
     enough space ([use this
     code](https://github.com/davidsjoberg/tidytuesday/blob/678e15f20decaa98bd3ebd8c1f3eadc598202f36/2020w17/2020w17_skript.R#L26))
 
-![labelled bump plot](ggbump-sigmoid-graph-edges.jpg)
+``` r
+source("R/ggbump-sigmoid-graph-edges.R")$value
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 sankey flow diagram using `{ggsankey}`: [code](R/ggsankey.R)
 
@@ -142,4 +146,15 @@ bad_x <- rep_len(100, nrow(pm_mtx) + 1)
 ## now we cannot use the panel map
 t(pm_mtx) %*% as.matrix(bad_x)
 #> Error in t(pm_mtx) %*% as.matrix(bad_x): non-conformable arguments
+```
+
+Panel maps are uni-directional except for one-from-one mappings
+
+``` r
+(pm_mtx %*% new_val) == src_val
+#>        [,1]
+#> BLX   FALSE
+#> E.GER FALSE
+#> W.GER FALSE
+#> AUS    TRUE
 ```
