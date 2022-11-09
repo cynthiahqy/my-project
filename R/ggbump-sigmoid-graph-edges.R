@@ -1,6 +1,6 @@
 pacman::p_load(tibble, dplyr, tidyr, ggplot2, ggbump)
 
-source("edges.R")
+source("R/edges.R")
 
 nodes <- pivot_longer(edges[, 1:2], from:to, values_to = "country") |>
   distinct(country)

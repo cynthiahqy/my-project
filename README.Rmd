@@ -21,16 +21,11 @@ This repo contains a collection of ggplot experiments for visualising panel maps
 
 ## Experiments
 
-This is this mapping function I tried to visualise:
+This is this mapping (recorded as graph edges) I tried to visualise:
 
 ```{r, echo=FALSE}
-(edges <- tibble::tribble(~from, ~to, ~weighted,
-                 "BLX", "BEL", 0.5,
-                 "BLX", "LUX", 0.5,
-                 "E.GER", "DEU", 1,
-                 "W.GER", "DEU", 1,
-                 "AUS", "AUS", 1)
-)
+source("R/edges.R")
+edges
 ```
 
 ggplot extensions I experimented with (code in `R/` folder):
@@ -54,9 +49,9 @@ Aside on errors when reproducing the map with sigmoid curves from `ggbump` readm
 
 ## Visualisation Results
 
-labelled bump plot: [code](R/ggbump-sigmoid-graph-edges.R)
+labelled sigmoid plot: [code](R/ggbump-sigmoid-graph-edges.R)
 
--   consider renormalising the nodes/labels to fit within a range
+-   renormalising the nodes/labels to fit within a range there is not enough space ([use this code](https://github.com/davidsjoberg/tidytuesday/blob/678e15f20decaa98bd3ebd8c1f3eadc598202f36/2020w17/2020w17_skript.R#L26))
 
 ![labelled bump plot](ggbump-sigmoid-graph-edges.jpg)
 
@@ -67,3 +62,38 @@ sankey flow diagram using `{ggsankey}`: [code](R/ggsankey.R)
 alluvial plot using `{ggalluvial}`: [code](R/ggalluvial.R)
 
 ![alluvial plot](ggalluvial.png){width="445"}
+
+# Matrix Equivalence and Panel Map Conditions
+
+Graphs can also be represented in matrix form:
+```{r pm-matrix}
+pm_mtx <- source("R/edges-to-matrix.R")$value
+pm_mtx
+```
+
+Notice the condition that weights sum to one can be checked by simply summing up each row:
+```{r pm-matrix-conditions}
+## weights sum to one
+col_ones <- matrix(1, nrow=nrow(pm_mtx))
+pm_mtx %*% col_ones == 1
+```
+
+apply the transformation:
+```{r}
+src_val <- matrix(100, nrow=nrow(pm_mtx))
+(new_val <- t(pm_mtx) %*% src_val)
+```
+
+Notice that we get equivalent totals for "free" because the weights in each row sum to one:
+```{r}
+sum(src_val) == sum(new_val)
+```
+
+The coverage test is equivalent to a conformability condition.
+```{r error=TRUE}
+## add an extra source class
+bad_x <- rep_len(100, nrow(pm_mtx) + 1)
+## now we cannot use the panel map
+t(pm_mtx) %*% as.matrix(bad_x)
+```
+

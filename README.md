@@ -12,7 +12,7 @@ documentation
 
 ## Experiments
 
-This is this mapping function I tried to visualise:
+This is this mapping (recorded as graph edges) I tried to visualise:
 
     #> # A tibble: 5 × 3
     #>   from  to    weighted
@@ -67,9 +67,11 @@ Aside on errors when reproducing the map with sigmoid curves from
 
 ## Visualisation Results
 
-labelled bump plot: [code](R/ggbump-sigmoid-graph-edges.R)
+labelled sigmoid plot: [code](R/ggbump-sigmoid-graph-edges.R)
 
--   consider renormalising the nodes/labels to fit within a range
+-   renormalising the nodes/labels to fit within a range there is not
+    enough space ([use this
+    code](https://github.com/davidsjoberg/tidytuesday/blob/678e15f20decaa98bd3ebd8c1f3eadc598202f36/2020w17/2020w17_skript.R#L26))
 
 ![labelled bump plot](ggbump-sigmoid-graph-edges.jpg)
 
@@ -83,3 +85,61 @@ alluvial plot using `{ggalluvial}`: [code](R/ggalluvial.R)
 <img src="ggalluvial.png" width="445" alt="alluvial plot" />
 <figcaption aria-hidden="true">alluvial plot</figcaption>
 </figure>
+
+# Matrix Equivalence and Panel Map Conditions
+
+Graphs can also be represented in matrix form:
+
+``` r
+pm_mtx <- source("R/edges-to-matrix.R")$value
+pm_mtx
+#>       BEL LUX DEU AUS
+#> BLX   0.5 0.5   0   0
+#> E.GER 0.0 0.0   1   0
+#> W.GER 0.0 0.0   1   0
+#> AUS   0.0 0.0   0   1
+```
+
+Notice the condition that weights sum to one can be checked by simply
+summing up each row:
+
+``` r
+## weights sum to one
+col_ones <- matrix(1, nrow=nrow(pm_mtx))
+pm_mtx %*% col_ones == 1
+#>       [,1]
+#> BLX   TRUE
+#> E.GER TRUE
+#> W.GER TRUE
+#> AUS   TRUE
+```
+
+apply the transformation:
+
+``` r
+src_val <- matrix(100, nrow=nrow(pm_mtx))
+(new_val <- t(pm_mtx) %*% src_val)
+#>     [,1]
+#> BEL   50
+#> LUX   50
+#> DEU  200
+#> AUS  100
+```
+
+Notice that we get equivalent totals for “free” because the weights in
+each row sum to one:
+
+``` r
+sum(src_val) == sum(new_val)
+#> [1] TRUE
+```
+
+The coverage test is equivalent to a conformability condition.
+
+``` r
+## add an extra source class
+bad_x <- rep_len(100, nrow(pm_mtx) + 1)
+## now we cannot use the panel map
+t(pm_mtx) %*% as.matrix(bad_x)
+#> Error in t(pm_mtx) %*% as.matrix(bad_x): non-conformable arguments
+```
