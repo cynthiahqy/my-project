@@ -20,7 +20,7 @@ This repo contains a collection of ggplot experiments for visualising panel maps
 This is this mapping (recorded as graph edges) I tried to visualise:
 
 ```{r, echo=FALSE}
-source("R/edges.R")
+source("code/viz-country-concord/edges.R")
 edges
 ```
 
@@ -45,29 +45,29 @@ Aside on errors when reproducing the map with sigmoid curves from `ggbump` readm
 
 ## Visualisation Results
 
-labelled sigmoid plot: [code](R/ggbump-sigmoid-graph-edges.R)
+labelled sigmoid plot: [code](code/viz-country-concord/ggbump-sigmoid-graph-edges.R)
 
 -   renormalising the nodes/labels to fit within a range there is not enough space ([use this code](https://github.com/davidsjoberg/tidytuesday/blob/678e15f20decaa98bd3ebd8c1f3eadc598202f36/2020w17/2020w17_skript.R#L26))
 
 
 ```{r}
-source("R/ggbump-sigmoid-graph-edges.R")
+source("code/viz-country-concord/ggbump-sigmoid-graph-edges.R")
 ```
-![](plots/ggbump-sigmoid-graph-edges.jpg)
+![](plots/viz-country-concord/ggbump-sigmoid-graph-edges.jpg)
 
-sankey flow diagram using `{ggsankey}`: [code](R/ggsankey.R)
+sankey flow diagram using `{ggsankey}`: [code](code/viz-country-concord/ggsankey.R)
 
-![sankey flow diagram](ggsankey.png) 
+![sankey flow diagram](plots/viz-country-concord/ggsankey.png) 
 
-alluvial plot using `{ggalluvial}`: [code](R/ggalluvial.R)
+alluvial plot using `{ggalluvial}`: [code](code/viz-country-concord/ggalluvial.R)
 
-![alluvial plot](ggalluvial.png){width="445"}
+![alluvial plot](plots/viz-country-concord/ggalluvial.png){width="445"}
 
 # Matrix Equivalence and Panel Map Conditions
 
 Graphs can also be represented in matrix form:
 ```{r pm-matrix}
-pm_mtx <- source("R/edges-to-matrix.R")$value
+pm_mtx <- source("code/viz-country-concord/edges-to-matrix.R")$value
 pm_mtx
 ```
 

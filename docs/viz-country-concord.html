@@ -513,13 +513,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong1954472">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongb7be0ac">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 1954472
+aria-hidden="true"></span> <strong>Repository version:</strong> b7be0ac
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong1954472"
+<div id="strongRepositoryversionstrongb7be0ac"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -528,7 +528,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 1954472.
+The results in this page were generated with repository version b7be0ac.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -548,9 +548,27 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    README_files/
 
+Untracked files:
+    Untracked:  code/
+
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Deleted:    R/edges-to-matrix.R
+    Deleted:    R/edges.R
+    Deleted:    R/ggalluvial.R
+    Deleted:    R/ggbump-geom-bump-attempt.R
+    Deleted:    R/ggbump-sigmoid-attempt.R
+    Deleted:    R/ggbump-sigmoid-graph-edges.R
+    Deleted:    R/ggbump-sigmoid-map.R
+    Deleted:    R/ggbump-sigmoid.R
+    Deleted:    R/ggbump-tutorial.R
+    Deleted:    R/ggraph-tidygraph.R
+    Deleted:    R/ggsankey.R
+    Deleted:    R/tidygraph.R
     Modified:   analysis/viz-country-concord.Rmd
+    Deleted:    ggalluvial.png
+    Deleted:    ggbump-sigmoid-graph-edges.jpg
+    Deleted:    ggbump-sigmoid-graph-edges.png
+    Deleted:    ggsankey.png
 
 </code></pre>
 <p>
@@ -596,6 +614,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+b7be0ac
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+wflow_git_commit(all = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+b7be0ac
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+wflow_git_commit(all = TRUE)
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -717,26 +769,28 @@ to fix the error</li>
 <div id="visualisation-results" class="section level2">
 <h2>Visualisation Results</h2>
 <p>labelled sigmoid plot: <a
-href="R/ggbump-sigmoid-graph-edges.R">code</a></p>
+href="code/viz-country-concord/ggbump-sigmoid-graph-edges.R">code</a></p>
 <ul>
 <li>renormalising the nodes/labels to fit within a range there is not
 enough space (<a
 href="https://github.com/davidsjoberg/tidytuesday/blob/678e15f20decaa98bd3ebd8c1f3eadc598202f36/2020w17/2020w17_skript.R#L26">use
 this code</a>)</li>
 </ul>
-<pre class="r"><code>source(&quot;R/ggbump-sigmoid-graph-edges.R&quot;)</code></pre>
+<pre class="r"><code>source(&quot;code/viz-country-concord/ggbump-sigmoid-graph-edges.R&quot;)</code></pre>
 <pre><code>Saving 7 x 5 in image</code></pre>
-<p><img src="plots/ggbump-sigmoid-graph-edges.jpg" /></p>
+<p><img
+src="plots/viz-country-concord/ggbump-sigmoid-graph-edges.jpg" /></p>
 <p>sankey flow diagram using <code>{ggsankey}</code>: <a
-href="R/ggsankey.R">code</a></p>
+href="code/viz-country-concord/ggsankey.R">code</a></p>
 <div class="figure">
-<img src="ggsankey.png" alt="" />
+<img src="plots/viz-country-concord/ggsankey.png" alt="" />
 <p class="caption">sankey flow diagram</p>
 </div>
 <p>alluvial plot using <code>{ggalluvial}</code>: <a
-href="R/ggalluvial.R">code</a></p>
+href="code/viz-country-concord/ggalluvial.R">code</a></p>
 <div class="figure">
-<img src="ggalluvial.png" width="445" alt="" />
+<img src="plots/viz-country-concord/ggalluvial.png" width="445"
+alt="" />
 <p class="caption">alluvial plot</p>
 </div>
 </div>
@@ -745,7 +799,7 @@ href="R/ggalluvial.R">code</a></p>
 class="section level1">
 <h1>Matrix Equivalence and Panel Map Conditions</h1>
 <p>Graphs can also be represented in matrix form:</p>
-<pre class="r"><code>pm_mtx &lt;- source(&quot;R/edges-to-matrix.R&quot;)$value
+<pre class="r"><code>pm_mtx &lt;- source(&quot;code/viz-country-concord/edges-to-matrix.R&quot;)$value
 pm_mtx</code></pre>
 <pre><code>      BEL LUX DEU AUS
 BLX   0.5 0.5   0   0
@@ -811,8 +865,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggbump_0.1.0    ggplot2_3.3.6   tidyr_1.2.1     dplyr_1.0.10   
-[5] tibble_3.1.8    workflowr_1.7.0
+[1] ggbump_0.1.0  ggplot2_3.3.6 tidyr_1.2.1   dplyr_1.0.10  tibble_3.1.8 
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.2.0  xfun_0.34         bslib_0.4.1       purrr_0.3.5      
@@ -820,17 +873,16 @@ loaded via a namespace (and not attached):
  [9] yaml_2.3.6        utf8_1.2.2        rlang_1.0.6       jquerylib_0.1.4  
 [13] later_1.3.0       pillar_1.8.1      glue_1.6.2        withr_2.5.0      
 [17] DBI_1.1.3         lifecycle_1.0.3   stringr_1.4.1     munsell_0.5.0    
-[21] gtable_0.3.1      ragg_1.2.2        evaluate_0.16     labeling_0.4.2   
-[25] knitr_1.40        callr_3.7.3       fastmap_1.1.0     httpuv_1.6.6     
-[29] ps_1.7.2          fansi_1.0.3       Rcpp_1.0.9        promises_1.2.0.1 
-[33] scales_1.2.1      cachem_1.0.6      jsonlite_1.8.2    farver_2.1.1     
-[37] systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6 digest_0.6.30    
-[41] stringi_1.7.8     processx_3.8.0    getPass_0.2-2     cowplot_1.1.1    
-[45] rprojroot_2.0.3   grid_4.2.1        here_1.0.1        cli_3.4.1        
-[49] tools_4.2.1       magrittr_2.0.3    sass_0.4.2        wesanderson_0.3.6
-[53] pacman_0.5.1      whisker_0.4       pkgconfig_2.0.3   ellipsis_0.3.2   
-[57] data.table_1.14.2 assertthat_0.2.1  rmarkdown_2.17    httr_1.4.4       
-[61] rstudioapi_0.14   R6_2.5.1          git2r_0.30.1      compiler_4.2.1   </code></pre>
+[21] gtable_0.3.1      workflowr_1.7.0   ragg_1.2.2        evaluate_0.16    
+[25] labeling_0.4.2    knitr_1.40        fastmap_1.1.0     httpuv_1.6.6     
+[29] fansi_1.0.3       Rcpp_1.0.9        promises_1.2.0.1  scales_1.2.1     
+[33] cachem_1.0.6      jsonlite_1.8.2    farver_2.1.1      systemfonts_1.0.4
+[37] fs_1.5.2          textshaping_0.3.6 digest_0.6.30     stringi_1.7.8    
+[41] rprojroot_2.0.3   grid_4.2.1        cowplot_1.1.1     here_1.0.1       
+[45] cli_3.4.1         tools_4.2.1       magrittr_2.0.3    sass_0.4.2       
+[49] pacman_0.5.1      wesanderson_0.3.6 whisker_0.4       pkgconfig_2.0.3  
+[53] ellipsis_0.3.2    data.table_1.14.2 assertthat_0.2.1  rmarkdown_2.17   
+[57] rstudioapi_0.14   R6_2.5.1          git2r_0.30.1      compiler_4.2.1   </code></pre>
 </div>
 </div>
 
