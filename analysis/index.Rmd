@@ -8,6 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-something something.
+Vignette-like pages for explaining things about the conformr package
 
 - [viz-country-concord](viz-country-concord.html)
+- [stylized-mtx-example](stylized-example.html)
