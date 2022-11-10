@@ -53,7 +53,7 @@ labelled sigmoid plot: [code](R/ggbump-sigmoid-graph-edges.R)
 ```{r}
 source("R/ggbump-sigmoid-graph-edges.R")
 ```
-![](../plots/ggbump-sigmoid-graph-edges.jpg)
+![](plots/ggbump-sigmoid-graph-edges.jpg)
 
 sankey flow diagram using `{ggsankey}`: [code](R/ggsankey.R)
 
