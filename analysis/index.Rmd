@@ -11,4 +11,4 @@ editor_options:
 Vignette-like pages for explaining things about the conformr package
 
 - [viz-country-concord](viz-country-concord.html)
-- [stylized-mtx-example](stylized-example.html)
+- [stylized-mtx-example](stylised-example.html)
