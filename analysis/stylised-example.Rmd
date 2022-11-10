@@ -1,0 +1,278 @@
+---
+title: "stylised-example"
+author: "cynthiahqy"
+date: "2022-11-10"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Define and visualise concordances {.tabset}
+
+Consider the following (weighted) concordance between lower case and upper case letters (representing categories) represented in the following forms:
+
+### as Matrix
+
+```{r pm-mtx}
+library(Matrix)
+## define source (x-to-x) cases
+one_to_one <- diag(1, 2, 2)
+many_to_one <- matrix(
+  c(1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 1, 1), ncol = 2)
+one_to_many <- matrix(
+  c(0.5, 0.5, 0, 0, 0, 0, 0, 0.3, 0.3, 0.4), nrow = 2,
+  byrow=TRUE
+)
+
+## combine into incidence matrix
+b_mtx <- Matrix::bdiag(many_to_one, one_to_one, one_to_many)
+dimnames(b_mtx) <- list(letters[1:nrow(b_mtx)],
+                        paste0(LETTERS[1:ncol(b_mtx)], LETTERS[1:ncol(b_mtx)])
+)
+
+print(b_mtx)
+```
+
+### as iGraph Object
+
+Forms a bipartite graph as target and source classification are disjoint sets.
+
+```{r pm-igraph}
+library(igraph, quietly = TRUE)
+
+## convert matrix to graph
+b_igraph <- igraph::graph_from_incidence_matrix(b_mtx,
+                                                   directed = TRUE,
+                                                   mode = "out",
+                                                   weighted = TRUE)
+print(b_igraph)
+plot(b_igraph, layout = layout_as_bipartite)
+```
+
+### as tidygraph Object
+
+```{r pm-tidygraph}
+library(ggraph, quietly = TRUE)
+library(tidygraph, quietly = TRUE)
+
+## convert from igraph
+b_tgraph <- tidygraph::as_tbl_graph(b_igraph)
+print(b_tgraph)
+
+## plot using ggraph
+ggraph(b_tgraph, layout = "bipartite") +
+  geom_edge_diagonal() +
+  geom_node_label(aes(label=name)) +
+  scale_y_reverse() +
+  scale_x_reverse() +
+  coord_flip()
+```
+
+## Weighted concordance as Panel Map
+
+`conformr`'s `panel_map` class expects the weighted concordance to be provided in this form,
+
+```{r pm-dataFrame}
+## using iGraph
+b_pm <- igraph::get.data.frame(b_igraph)
+
+print(b_pm)
+```
+
+Notice the first two columns of the dataframe form the edge list of the graph, and the third column stores the weights of each edge
+
+```{r pm-dataFrame-plot}
+## plot using ggplot and ggbump
+source(here::here('R/plt_pm_df.R'))
+plt_pm_df(b_pm, from, to, weight)
+```
+
+## Using Panel Maps to Transform Data {.tabset}
+
+### in Matrix Notation
+
+-   Let $\bf{B}$ be a $n \times m$ matrix, satisfying the necessary conditions to form a panel map
+-   Let $\bf{x}$ be vector of length $n$ containing the numeric values to be transformed.
+-   Then the transformed data is $\bf{y} = \bf{B}'\bf{x}$
+
+```{r mtx-transform}
+x <- rep_len(100, nrow(b_mtx))
+y <- t(b_mtx) %*% x
+y
+```
+
+### using `{conformr}`
+
+```{r pm-transformation}
+data_in <- tibble::tibble(from = rownames(b_mtx), gdp_in = x)
+
+# conformr::validate_panel_map(b_pm) |>
+# conformr::validate_coverage(b_pm, data, values_from, from_code, to_code, weights) |>
+conformr::use_panel_map(map = b_pm, data=data_in, values_from=gdp_in,
+                        from_code = from, to_code = to,
+                        weights = weight, .suffix = "_out")
+```
+
+## Conditions for a valid transformations
+
+### A: `valid-weights` {.tabset}
+
+The sum of weights associated with a given source node/class must sum to one. If weights total less than one, some portion of the initial source value will be "lost" in the transformation. Conversely, if the weights exceed one, then some part of the initial source value is being "double" transferred.
+
+**Violations of this condition:**
+
+#### as Matrix Row totals
+
+-   Let $\bf{Z}$ be a $n \times m$ matrix showing the incidence between two disjoint sets of nodes (e.g `from`/`to`)
+-   Then $\bf{Z}$ is a valid panel map if and only if $\bf{Z}\boldsymbol{1} = \boldsymbol{1}$ where $\boldsymbol{1}$ is a unit vector of length $m$
+
+```{r}
+## define source (x-to-x) violations
+one_to_more <- c(0.5, 0.7)
+one_to_less <- c(0.3, 0.4)
+wgt_mtx <- bdiag(one_to_one, t(one_to_more), t(one_to_less))
+
+source(here::here("code/fnc-make-dimnames.R"))
+dimnames(wgt_mtx) <- make_dimnames(wgt_mtx)
+wgt_mtx
+
+## validation check
+(sum_wgt_mtx <- wgt_mtx %*% rep_len(1, ncol(wgt_mtx)))
+
+## problem source nodes
+wgt_mtx[!as.vector(sum_wgt_mtx == 1), ]
+```
+
+#### as Data Frame Group totals
+
+The data frame equivalent of the matrix rows total calculation involves grouping the non-trival edges (i.e. weights are non-zero), and summarising the total weights for each group. Any groups with total weights not equal to one require correction.
+
+```{r}
+## convert violation matrix back to data frame
+mtx <- wgt_mtx
+
+wgt_df <- mtx |>
+  as.data.frame.array() |>
+  tibble::as_tibble(rownames = "from") |>
+  tidyr::pivot_longer(cols=c(-from), values_to="weights", names_to="to") |>
+  dplyr::filter(weights!=0)
+
+## calculate total weights for each source node
+wgt_df |>
+  dplyr::group_by(from) |>
+  dplyr::summarise(t_weights = sum(weights))
+```
+
+### A\*: `valid-edgelist`
+
+The `make_panel_map_equal()`[^1] function is basically a helper which assigns equal fractional weights to links between source and target nodes.
+
+[^1]: other possible names: `equal_pm_from_nodes()`
+
+:::: {style="display: flex;"}
+
+::: {}
+
+```{r concord-mtx-plot, echo=FALSE}
+b_mtx_long <- b_mtx[-c(1:4, 10), -c(1, 7:9)] |>
+  as.data.frame.array() |>
+  tibble::as_tibble(rownames = "from") |>
+  tidyr::pivot_longer(cols=c(-from), values_to="weight", names_to="to")
+
+
+gg <- b_mtx_long |>
+  dplyr::mutate(src_case = dplyr::case_when(weight==1 ~ "one-to-one",
+                                     weight==0 ~ "NA",
+                                     weight < 1 ~ "one-to-many")) |>
+  ggplot(aes(x=to, y=from)) +
+  geom_tile(aes(fill=src_case), col="grey") +
+  scale_y_discrete(limits=rev) +
+  scale_fill_brewer() +
+  coord_fixed()  +
+  labs(x = element_blank(), y = element_blank()) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("concordance table as matrix")
+
+gg
+```
+:::
+
+::: {}
+
+```{r equal-weight-matrix, echo=FALSE}
+gg + geom_text(data = dplyr::filter(b_mtx_long, weight !=0), aes(label=weight)) +
+  ggtitle("with equal weights added")
+```
+:::
+
+::::
+
+A necessary condition for this helper to work as intended is that the list of un-weighted edges doesn't have any duplicates.
+
+### B: `complete-coverage` {.tabset}
+
+This is a conformability condition that is not enforced by default when joining tables.
+
+#### as Matrix conformability condition
+```{r extra-data-in-class, error=TRUE}
+## add an extra source class
+bad_x <- rep_len(100, nrow(b_mtx) + 1)
+## now we cannot use the panel map
+t(b_mtx) %*% as.matrix(bad_x)
+```
+
+#### as Set comparison
+
+
+
+### C: `complete-data-in`
+
+NA values should be dealt with explicitly before applying a panel map transformation.
+
+## Properties of valid transformations
+
+If all three conditions (A, B, C) are met, then:
+
+- sum of `value_in` and `value_out` will be equal
+- OTHER SMELL CHECKS??
+
+
+## ASIDE: Converting between Representations {.tabset}
+
+PM \<--\> Matrix \<-- iGraph --\> PM
+
+### panel map to Matrix
+
+```{r}
+source(here::here('R/pm_to_matrix.R'))
+(pm2mtx <- pm_to_matrix(b_pm, to=to, weights=weight))
+```
+
+### panel map to iGraph (broken)
+
+Vertex metadata errors can be avoided by going from data frame to matrix first (as seen above)
+
+```{r edgelist-2-igraph, error=TRUE}
+## reconstruct node/vertices list
+b_pm_nodes <- tidyr::pivot_longer(b_pm[, 1:2], from:to, names_to = "type", values_to = "name") %>%
+  dplyr::distinct() %>%
+  dplyr::arrange(type) %>%
+  as.data.frame()
+
+rownames(b_pm_nodes) <- b_pm_nodes$name
+  
+b_pm2igraph <- igraph::graph_from_data_frame(b_pm, directed = TRUE, vertices = b_pm_nodes)
+plot(b_pm2igraph, layout = layout_as_bipartite)
+```
+
+### igraph to long data frame
+```{r}
+b_igraph |> igraph::as_long_data_frame()
+```
+
