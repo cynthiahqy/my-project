@@ -15,7 +15,7 @@
 
 <title>stylised-example</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -156,15 +156,11 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark the anchor link active (and if it's in a dropdown, also mark that active)
-  var dropdown = menuAnchor.closest('li.dropdown');
-  if (window.bootstrap) { // Bootstrap 4+
-    menuAnchor.addClass('active');
-    dropdown.find('> .dropdown-toggle').addClass('active');
-  } else { // Bootstrap 3
-    menuAnchor.parent().addClass('active');
-    dropdown.addClass('active');
-  }
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -193,8 +189,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -202,9 +198,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -358,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -369,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -379,13 +382,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-15
+<strong>Last updated:</strong> 2022-11-22
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>viz-panel-maps/</code> <span
@@ -408,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -513,13 +513,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong92bf67a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongcb702ba">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 92bf67a
+aria-hidden="true"></span> <strong>Repository version:</strong> cb702ba
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong92bf67a"
+<div id="strongRepositoryversionstrongcb702ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -528,7 +528,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 92bf67a.
+The results in this page were generated with repository version cb702ba.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -547,12 +547,11 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    README_files/
+    Ignored:    renv/library/
+    Ignored:    renv/staging/
 
 Untracked files:
-    Untracked:  code/sketch-example.R
-
-Unstaged changes:
-    Modified:   analysis/stylised-example.Rmd
+    Untracked:  analysis/figure/
 
 </code></pre>
 <p>
@@ -598,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+<td>
+add sketch example, fix renv dependencies
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+<td>
+add sketch example, fix renv dependencies
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -708,9 +741,9 @@ b_igraph &lt;- igraph::graph_from_incidence_matrix(b_mtx,
                                                    mode = &quot;out&quot;,
                                                    weighted = TRUE)
 print(b_igraph)</code></pre>
-<pre><code>IGRAPH 050ed0f DNWB 19 13 -- 
+<pre><code>IGRAPH 3961ec4 DNWB 19 13 -- 
 + attr: type (v/l), name (v/c), weight (e/n)
-+ edges from 050ed0f (vertex names):
++ edges from 3961ec4 (vertex names):
  [1] a-&gt;AA b-&gt;AA c-&gt;AA d-&gt;AA e-&gt;BB f-&gt;BB g-&gt;CC h-&gt;DD i-&gt;EE i-&gt;FF j-&gt;GG j-&gt;HH
 [13] j-&gt;II</code></pre>
 <pre class="r"><code>plot(b_igraph, layout = layout_as_bipartite)</code></pre>
@@ -1060,9 +1093,83 @@ gg_weights &lt;- gg + geom_text(data = dplyr::filter(b_mtx_long, weight !=0), ae
 <div style="display: flex;">
 <div>
 <p><img src="figure/stylised-example.Rmd/gg-no-weight-martix-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gg-no-weight-martix-1">
+Past versions of gg-no-weight-martix-1.png
+</button>
+</p>
+<div id="fig-gg-no-weight-martix-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div>
 <p><img src="figure/stylised-example.Rmd/gg-equal-weight-matrix-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gg-equal-weight-matrix-1">
+Past versions of gg-equal-weight-matrix-1.png
+</button>
+</p>
+<div id="fig-gg-equal-weight-matrix-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <p>A necessary condition for this helper to work as intended is that the
@@ -1070,8 +1177,12 @@ list of un-weighted edges doesn’t have any duplicates.</p>
 </div>
 <div id="b-complete-coverage" class="section level3 tabset">
 <h3 class="tabset">B: <code>complete-coverage</code></h3>
-<p>This is a conformability condition that is not enforced by default
-when joining tables.</p>
+<p>Conformability is a necessary but not sufficient condition for a
+valid transformation.</p>
+<p>The necessary condition is that the Panel Map used in the
+transformation covers all the Source Codes present in the Source Data.
+When applying the transformation using table joins, the extraneous codes
+are dropped and conformability is implicitly achieved.</p>
 <div id="as-matrix-conformability-condition" class="section level4">
 <h4>as Matrix conformability condition</h4>
 <pre class="r"><code>## add an extra source class
@@ -1175,37 +1286,38 @@ locale:
 [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
 [1] ggbump_0.1.0    dplyr_1.0.10    tidygraph_1.2.2 ggraph_2.1.0   
-[5] ggplot2_3.3.6   igraph_1.3.5    Matrix_1.4-1   
+[5] ggplot2_3.3.6   igraph_1.3.5    Matrix_1.4-1    workflowr_1.7.0
 
 loaded via a namespace (and not attached):
  [1] ggrepel_0.9.1       Rcpp_1.0.9          here_1.0.1         
- [4] lattice_0.20-45     tidyr_1.2.1         assertthat_0.2.1   
- [7] rprojroot_2.0.3     digest_0.6.30       utf8_1.2.2         
-[10] ggforce_0.4.1       wesanderson_0.3.6   R6_2.5.1           
-[13] evaluate_0.18       highr_0.9           pillar_1.8.1       
-[16] rlang_1.0.6         data.table_1.14.2   rstudioapi_0.14    
-[19] whisker_0.4         jquerylib_0.1.4     rmarkdown_2.18     
-[22] labeling_0.4.2      stringr_1.4.1       polyclip_1.10-4    
-[25] munsell_0.5.0       compiler_4.2.1      httpuv_1.6.6       
-[28] xfun_0.34           pkgconfig_2.0.3     htmltools_0.5.3    
-[31] tidyselect_1.2.0    tibble_3.1.8        gridExtra_2.3      
-[34] workflowr_1.7.0     graphlayouts_0.8.3  fansi_1.0.3        
-[37] viridisLite_0.4.1   withr_2.5.0         later_1.3.0        
-[40] MASS_7.3-58.1       grid_4.2.1          jsonlite_1.8.3     
-[43] gtable_0.3.1        lifecycle_1.0.3     DBI_1.1.3          
-[46] git2r_0.30.1        magrittr_2.0.3      scales_1.2.1       
-[49] cli_3.4.1           stringi_1.7.8       cachem_1.0.6       
-[52] conformr_0.0.0.9000 farver_2.1.1        viridis_0.6.2      
-[55] fs_1.5.2            promises_1.2.0.1    bslib_0.4.1        
-[58] ellipsis_0.3.2      generics_0.1.3      vctrs_0.5.0        
-[61] cowplot_1.1.1       RColorBrewer_1.1-3  tools_4.2.1        
-[64] glue_1.6.2          tweenr_2.0.2        purrr_0.3.5        
-[67] fastmap_1.1.0       yaml_2.3.6          colorspace_2.0-3   
-[70] knitr_1.40          sass_0.4.2         </code></pre>
+ [4] lattice_0.20-45     tidyr_1.2.1         getPass_0.2-2      
+ [7] ps_1.7.1            assertthat_0.2.1    rprojroot_2.0.3    
+[10] digest_0.6.30       utf8_1.2.2          ggforce_0.4.1      
+[13] wesanderson_0.3.6   R6_2.5.1            evaluate_0.16      
+[16] httr_1.4.3          highr_0.9           pillar_1.8.1       
+[19] rlang_1.0.6         data.table_1.14.2   rstudioapi_0.13    
+[22] whisker_0.4         callr_3.7.0         jquerylib_0.1.4    
+[25] rmarkdown_2.14      labeling_0.4.2      stringr_1.4.1      
+[28] polyclip_1.10-4     munsell_0.5.0       compiler_4.2.1     
+[31] httpuv_1.6.5        xfun_0.31           pkgconfig_2.0.3    
+[34] htmltools_0.5.2     tidyselect_1.2.0    tibble_3.1.8       
+[37] gridExtra_2.3       graphlayouts_0.8.3  viridisLite_0.4.1  
+[40] fansi_1.0.3         withr_2.5.0         later_1.3.0        
+[43] MASS_7.3-57         grid_4.2.1          jsonlite_1.8.2     
+[46] gtable_0.3.1        lifecycle_1.0.3     DBI_1.1.3          
+[49] git2r_0.30.1        magrittr_2.0.3      scales_1.2.1       
+[52] cli_3.4.1           stringi_1.7.8       conformr_0.0.0.9001
+[55] farver_2.1.1        renv_0.15.5         viridis_0.6.2      
+[58] fs_1.5.2            promises_1.2.0.1    bslib_0.3.1        
+[61] ellipsis_0.3.2      generics_0.1.3      vctrs_0.4.2        
+[64] cowplot_1.1.1       RColorBrewer_1.1-3  tools_4.2.1        
+[67] glue_1.6.2          tweenr_2.0.2        purrr_0.3.5        
+[70] processx_3.6.1      fastmap_1.1.0       yaml_2.3.5         
+[73] colorspace_2.0-3    knitr_1.39          sass_0.4.2.9000    </code></pre>
 </div>
 </div>
 </div>
