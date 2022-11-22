@@ -174,11 +174,7 @@ The `make_panel_map_equal()`[^1] function is basically a helper which assigns eq
 
 [^1]: other possible names: `equal_pm_from_nodes()`
 
-:::: {style="display: flex;"}
-
-::: {}
-
-```{r concord-mtx-plot, echo=FALSE}
+```{r concord-mtx-plot}
 b_mtx_long <- b_mtx[-c(1:4, 10), -c(1, 7:9)] |>
   as.data.frame.array() |>
   tibble::as_tibble(rownames = "from") |>
@@ -199,15 +195,24 @@ gg <- b_mtx_long |>
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ggtitle("concordance table as matrix")
 
+gg_weights <- gg + geom_text(data = dplyr::filter(b_mtx_long, weight !=0), aes(label=weight)) +
+  ggtitle("with equal weights added")
+```
+
+:::: {style="display: flex;"}
+
+::: {}
+
+```{r gg-no-weight-martix, echo = FALSE}
 gg
 ```
+
 :::
 
 ::: {}
 
-```{r equal-weight-matrix, echo=FALSE}
-gg + geom_text(data = dplyr::filter(b_mtx_long, weight !=0), aes(label=weight)) +
-  ggtitle("with equal weights added")
+```{r gg-equal-weight-matrix, echo=FALSE}
+gg_weights
 ```
 :::
 
@@ -217,7 +222,11 @@ A necessary condition for this helper to work as intended is that the list of un
 
 ### B: `complete-coverage` {.tabset}
 
-This is a conformability condition that is not enforced by default when joining tables.
+Conformability is a necessary but not sufficient condition for a valid transformation. 
+
+The necessary condition is that the Panel Map used in the transformation covers all the Source Codes present in the Source Data. When applying the transformation using table joins, the extraneous codes are dropped and conformability is implicitly achieved.
+
+
 
 #### as Matrix conformability condition
 ```{r extra-data-in-class, error=TRUE}

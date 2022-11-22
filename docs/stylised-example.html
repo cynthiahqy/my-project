@@ -15,7 +15,7 @@
 
 <title>stylised-example</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -358,7 +358,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -369,8 +369,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -379,13 +379,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-10
+<strong>Last updated:</strong> 2022-11-15
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>viz-panel-maps/</code> <span
@@ -408,18 +408,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -510,13 +513,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong40e576d">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong92bf67a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 40e576d
+aria-hidden="true"></span> <strong>Repository version:</strong> 92bf67a
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong40e576d"
+<div id="strongRepositoryversionstrong92bf67a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +528,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 40e576d.
+The results in this page were generated with repository version 92bf67a.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -544,6 +547,12 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    README_files/
+
+Untracked files:
+    Untracked:  code/sketch-example.R
+
+Unstaged changes:
+    Modified:   analysis/stylised-example.Rmd
 
 </code></pre>
 <p>
@@ -589,6 +598,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+1b832de
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -682,9 +708,9 @@ b_igraph &lt;- igraph::graph_from_incidence_matrix(b_mtx,
                                                    mode = &quot;out&quot;,
                                                    weighted = TRUE)
 print(b_igraph)</code></pre>
-<pre><code>IGRAPH 3ec3776 DNWB 19 13 -- 
+<pre><code>IGRAPH 050ed0f DNWB 19 13 -- 
 + attr: type (v/l), name (v/c), weight (e/n)
-+ edges from 3ec3776 (vertex names):
++ edges from 050ed0f (vertex names):
  [1] a-&gt;AA b-&gt;AA c-&gt;AA d-&gt;AA e-&gt;BB f-&gt;BB g-&gt;CC h-&gt;DD i-&gt;EE i-&gt;FF j-&gt;GG j-&gt;HH
 [13] j-&gt;II</code></pre>
 <pre class="r"><code>plot(b_igraph, layout = layout_as_bipartite)</code></pre>
@@ -1009,86 +1035,34 @@ wgt_df |&gt;
 class="footnote-ref" id="fnref1"><sup>1</sup></a> function is basically
 a helper which assigns equal fractional weights to links between source
 and target nodes.</p>
+<pre class="r"><code>b_mtx_long &lt;- b_mtx[-c(1:4, 10), -c(1, 7:9)] |&gt;
+  as.data.frame.array() |&gt;
+  tibble::as_tibble(rownames = &quot;from&quot;) |&gt;
+  tidyr::pivot_longer(cols=c(-from), values_to=&quot;weight&quot;, names_to=&quot;to&quot;)
+
+
+gg &lt;- b_mtx_long |&gt;
+  dplyr::mutate(src_case = dplyr::case_when(weight==1 ~ &quot;one-to-one&quot;,
+                                     weight==0 ~ &quot;NA&quot;,
+                                     weight &lt; 1 ~ &quot;one-to-many&quot;)) |&gt;
+  ggplot(aes(x=to, y=from)) +
+  geom_tile(aes(fill=src_case), col=&quot;grey&quot;) +
+  scale_y_discrete(limits=rev) +
+  scale_fill_brewer() +
+  coord_fixed()  +
+  labs(x = element_blank(), y = element_blank()) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle(&quot;concordance table as matrix&quot;)
+
+gg_weights &lt;- gg + geom_text(data = dplyr::filter(b_mtx_long, weight !=0), aes(label=weight)) +
+  ggtitle(&quot;with equal weights added&quot;)</code></pre>
 <div style="display: flex;">
 <div>
-<p><img src="figure/stylised-example.Rmd/concord-mtx-plot-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concord-mtx-plot-1">
-Past versions of concord-mtx-plot-1.png
-</button>
-</p>
-<div id="fig-concord-mtx-plot-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-68db7fa
-</td>
-<td>
-cynthiahqy
-</td>
-<td>
-2022-11-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/stylised-example.Rmd/gg-no-weight-martix-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div>
-<p><img src="figure/stylised-example.Rmd/equal-weight-matrix-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-equal-weight-matrix-1">
-Past versions of equal-weight-matrix-1.png
-</button>
-</p>
-<div id="fig-equal-weight-matrix-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-68db7fa
-</td>
-<td>
-cynthiahqy
-</td>
-<td>
-2022-11-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/stylised-example.Rmd/gg-equal-weight-matrix-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <p>A necessary condition for this helper to work as intended is that the
@@ -1205,34 +1179,33 @@ attached base packages:
 
 other attached packages:
 [1] ggbump_0.1.0    dplyr_1.0.10    tidygraph_1.2.2 ggraph_2.1.0   
-[5] ggplot2_3.3.6   igraph_1.3.5    Matrix_1.4-1    workflowr_1.7.0
+[5] ggplot2_3.3.6   igraph_1.3.5    Matrix_1.4-1   
 
 loaded via a namespace (and not attached):
  [1] ggrepel_0.9.1       Rcpp_1.0.9          here_1.0.1         
- [4] lattice_0.20-45     tidyr_1.2.1         getPass_0.2-2      
- [7] ps_1.7.2            assertthat_0.2.1    rprojroot_2.0.3    
-[10] digest_0.6.30       utf8_1.2.2          ggforce_0.4.1      
-[13] wesanderson_0.3.6   R6_2.5.1            evaluate_0.16      
-[16] httr_1.4.4          highr_0.9           pillar_1.8.1       
-[19] rlang_1.0.6         data.table_1.14.2   rstudioapi_0.14    
-[22] whisker_0.4         callr_3.7.3         jquerylib_0.1.4    
-[25] rmarkdown_2.17      labeling_0.4.2      stringr_1.4.1      
-[28] polyclip_1.10-4     munsell_0.5.0       compiler_4.2.1     
-[31] httpuv_1.6.6        xfun_0.34           pkgconfig_2.0.3    
-[34] htmltools_0.5.3     tidyselect_1.2.0    tibble_3.1.8       
-[37] gridExtra_2.3       graphlayouts_0.8.3  viridisLite_0.4.1  
-[40] fansi_1.0.3         withr_2.5.0         later_1.3.0        
-[43] MASS_7.3-58.1       grid_4.2.1          jsonlite_1.8.2     
-[46] gtable_0.3.1        lifecycle_1.0.3     DBI_1.1.3          
-[49] git2r_0.30.1        magrittr_2.0.3      scales_1.2.1       
-[52] cli_3.4.1           stringi_1.7.8       cachem_1.0.6       
-[55] conformr_0.0.0.9000 farver_2.1.1        viridis_0.6.2      
-[58] fs_1.5.2            promises_1.2.0.1    bslib_0.4.1        
-[61] ellipsis_0.3.2      generics_0.1.3      vctrs_0.5.0        
-[64] cowplot_1.1.1       RColorBrewer_1.1-3  tools_4.2.1        
-[67] glue_1.6.2          tweenr_2.0.2        purrr_0.3.5        
-[70] processx_3.8.0      fastmap_1.1.0       yaml_2.3.6         
-[73] colorspace_2.0-3    knitr_1.40          sass_0.4.2         </code></pre>
+ [4] lattice_0.20-45     tidyr_1.2.1         assertthat_0.2.1   
+ [7] rprojroot_2.0.3     digest_0.6.30       utf8_1.2.2         
+[10] ggforce_0.4.1       wesanderson_0.3.6   R6_2.5.1           
+[13] evaluate_0.18       highr_0.9           pillar_1.8.1       
+[16] rlang_1.0.6         data.table_1.14.2   rstudioapi_0.14    
+[19] whisker_0.4         jquerylib_0.1.4     rmarkdown_2.18     
+[22] labeling_0.4.2      stringr_1.4.1       polyclip_1.10-4    
+[25] munsell_0.5.0       compiler_4.2.1      httpuv_1.6.6       
+[28] xfun_0.34           pkgconfig_2.0.3     htmltools_0.5.3    
+[31] tidyselect_1.2.0    tibble_3.1.8        gridExtra_2.3      
+[34] workflowr_1.7.0     graphlayouts_0.8.3  fansi_1.0.3        
+[37] viridisLite_0.4.1   withr_2.5.0         later_1.3.0        
+[40] MASS_7.3-58.1       grid_4.2.1          jsonlite_1.8.3     
+[43] gtable_0.3.1        lifecycle_1.0.3     DBI_1.1.3          
+[46] git2r_0.30.1        magrittr_2.0.3      scales_1.2.1       
+[49] cli_3.4.1           stringi_1.7.8       cachem_1.0.6       
+[52] conformr_0.0.0.9000 farver_2.1.1        viridis_0.6.2      
+[55] fs_1.5.2            promises_1.2.0.1    bslib_0.4.1        
+[58] ellipsis_0.3.2      generics_0.1.3      vctrs_0.5.0        
+[61] cowplot_1.1.1       RColorBrewer_1.1-3  tools_4.2.1        
+[64] glue_1.6.2          tweenr_2.0.2        purrr_0.3.5        
+[67] fastmap_1.1.0       yaml_2.3.6          colorspace_2.0-3   
+[70] knitr_1.40          sass_0.4.2         </code></pre>
 </div>
 </div>
 </div>
