@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="cynthiahqy" />
+
+<meta name="date" content="2022-11-10" />
+
+<title>stylised-example</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">viz-panel-maps</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">stylised-example</h1>
+<h4 class="author">cynthiahqy</h4>
+<h4 class="date">2022-11-10</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-11-22
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>viz-panel-maps/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221110code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221110)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221110code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221110)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongcb702ba">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> cb702ba
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongcb702ba"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version cb702ba.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    README_files/
+    Ignored:    renv/library/
+    Ignored:    renv/staging/
+
+Untracked files:
+    Untracked:  analysis/figure/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/stylised-example.Rmd</code>) and
+HTML (<code>docs/stylised-example.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+<td>
+add sketch example, fix renv dependencies
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+<td>
+add sketch example, fix renv dependencies
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+1b832de
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+68db7fa
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+add stylised example starting with matrix cases
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+68db7fa
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+add stylised example starting with matrix cases
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>knitr::opts_chunk$set(message = FALSE)</code></pre>
+<div id="define-and-visualise-concordances"
+class="section level2 tabset">
+<h2 class="tabset">Define and visualise concordances</h2>
+<p>Consider the following (weighted) concordance between lower case and
+upper case letters (representing categories) represented in the
+following forms:</p>
+<div id="as-matrix" class="section level3">
+<h3>as Matrix</h3>
+<pre class="r"><code>library(Matrix)
+## define source (x-to-x) cases
+one_to_one &lt;- diag(1, 2, 2)
+many_to_one &lt;- matrix(
+  c(1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 1, 1), ncol = 2)
+one_to_many &lt;- matrix(
+  c(0.5, 0.5, 0, 0, 0, 0, 0, 0.3, 0.3, 0.4), nrow = 2,
+  byrow=TRUE
+)
+
+## combine into incidence matrix
+b_mtx &lt;- Matrix::bdiag(many_to_one, one_to_one, one_to_many)
+dimnames(b_mtx) &lt;- list(letters[1:nrow(b_mtx)],
+                        paste0(LETTERS[1:ncol(b_mtx)], LETTERS[1:ncol(b_mtx)])
+)
+
+print(b_mtx)</code></pre>
+<pre><code>10 x 9 sparse Matrix of class &quot;dgCMatrix&quot;
+  AA BB CC DD  EE  FF  GG  HH  II
+a  1  .  .  . .   .   .   .   .  
+b  1  .  .  . .   .   .   .   .  
+c  1  .  .  . .   .   .   .   .  
+d  1  .  .  . .   .   .   .   .  
+e  .  1  .  . .   .   .   .   .  
+f  .  1  .  . .   .   .   .   .  
+g  .  .  1  . .   .   .   .   .  
+h  .  .  .  1 .   .   .   .   .  
+i  .  .  .  . 0.5 0.5 .   .   .  
+j  .  .  .  . .   .   0.3 0.3 0.4</code></pre>
+</div>
+<div id="as-igraph-object" class="section level3">
+<h3>as iGraph Object</h3>
+<p>Forms a bipartite graph as target and source classification are
+disjoint sets.</p>
+<pre class="r"><code>library(igraph, quietly = TRUE)
+
+## convert matrix to graph
+b_igraph &lt;- igraph::graph_from_incidence_matrix(b_mtx,
+                                                   directed = TRUE,
+                                                   mode = &quot;out&quot;,
+                                                   weighted = TRUE)
+print(b_igraph)</code></pre>
+<pre><code>IGRAPH 3961ec4 DNWB 19 13 -- 
++ attr: type (v/l), name (v/c), weight (e/n)
++ edges from 3961ec4 (vertex names):
+ [1] a-&gt;AA b-&gt;AA c-&gt;AA d-&gt;AA e-&gt;BB f-&gt;BB g-&gt;CC h-&gt;DD i-&gt;EE i-&gt;FF j-&gt;GG j-&gt;HH
+[13] j-&gt;II</code></pre>
+<pre class="r"><code>plot(b_igraph, layout = layout_as_bipartite)</code></pre>
+<p><img src="figure/stylised-example.Rmd/pm-igraph-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pm-igraph-1">
+Past versions of pm-igraph-1.png
+</button>
+</p>
+<div id="fig-pm-igraph-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+68db7fa
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="as-tidygraph-object" class="section level3">
+<h3>as tidygraph Object</h3>
+<pre class="r"><code>library(ggraph, quietly = TRUE)
+library(tidygraph, quietly = TRUE)
+
+## convert from igraph
+b_tgraph &lt;- tidygraph::as_tbl_graph(b_igraph)
+print(b_tgraph)</code></pre>
+<pre><code># A tbl_graph: 19 nodes and 13 edges
+#
+# A rooted forest with 6 trees
+#
+# Node Data: 19 × 2 (active)
+  type  name 
+  &lt;lgl&gt; &lt;chr&gt;
+1 FALSE a    
+2 FALSE b    
+3 FALSE c    
+4 FALSE d    
+5 FALSE e    
+6 FALSE f    
+# … with 13 more rows
+#
+# Edge Data: 13 × 3
+   from    to weight
+  &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;
+1     1    11      1
+2     2    11      1
+3     3    11      1
+# … with 10 more rows</code></pre>
+<pre class="r"><code>## plot using ggraph
+ggraph(b_tgraph, layout = &quot;bipartite&quot;) +
+  geom_edge_diagonal() +
+  geom_node_label(aes(label=name)) +
+  scale_y_reverse() +
+  scale_x_reverse() +
+  coord_flip()</code></pre>
+<p><img src="figure/stylised-example.Rmd/pm-tidygraph-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pm-tidygraph-1">
+Past versions of pm-tidygraph-1.png
+</button>
+</p>
+<div id="fig-pm-tidygraph-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+68db7fa
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="weighted-concordance-as-panel-map" class="section level2">
+<h2>Weighted concordance as Panel Map</h2>
+<p><code>conformr</code>’s <code>panel_map</code> class expects the
+weighted concordance to be provided in this form,</p>
+<pre class="r"><code>## using iGraph
+b_pm &lt;- igraph::get.data.frame(b_igraph)
+
+print(b_pm)</code></pre>
+<pre><code>   from to weight
+1     a AA    1.0
+2     b AA    1.0
+3     c AA    1.0
+4     d AA    1.0
+5     e BB    1.0
+6     f BB    1.0
+7     g CC    1.0
+8     h DD    1.0
+9     i EE    0.5
+10    i FF    0.5
+11    j GG    0.3
+12    j HH    0.3
+13    j II    0.4</code></pre>
+<p>Notice the first two columns of the dataframe form the edge list of
+the graph, and the third column stores the weights of each edge</p>
+<pre class="r"><code>## plot using ggplot and ggbump
+source(here::here(&#39;R/plt_pm_df.R&#39;))
+plt_pm_df(b_pm, from, to, weight)</code></pre>
+<p><img src="figure/stylised-example.Rmd/pm-dataFrame-plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pm-dataFrame-plot-1">
+Past versions of pm-dataFrame-plot-1.png
+</button>
+</p>
+<div id="fig-pm-dataFrame-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+68db7fa
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="using-panel-maps-to-transform-data"
+class="section level2 tabset">
+<h2 class="tabset">Using Panel Maps to Transform Data</h2>
+<div id="in-matrix-notation" class="section level3">
+<h3>in Matrix Notation</h3>
+<ul>
+<li>Let <span class="math inline">\(\bf{B}\)</span> be a <span
+class="math inline">\(n \times m\)</span> matrix, satisfying the
+necessary conditions to form a panel map</li>
+<li>Let <span class="math inline">\(\bf{x}\)</span> be vector of length
+<span class="math inline">\(n\)</span> containing the numeric values to
+be transformed.</li>
+<li>Then the transformed data is <span class="math inline">\(\bf{y} =
+\bf{B}&#39;\bf{x}\)</span></li>
+</ul>
+<pre class="r"><code>x &lt;- rep_len(100, nrow(b_mtx))
+y &lt;- t(b_mtx) %*% x
+y</code></pre>
+<pre><code>9 x 1 Matrix of class &quot;dgeMatrix&quot;
+   [,1]
+AA  400
+BB  200
+CC  100
+DD  100
+EE   50
+FF   50
+GG   30
+HH   30
+II   40</code></pre>
+</div>
+<div id="using-conformr" class="section level3">
+<h3>using <code>{conformr}</code></h3>
+<pre class="r"><code>data_in &lt;- tibble::tibble(from = rownames(b_mtx), gdp_in = x)
+
+# conformr::validate_panel_map(b_pm) |&gt;
+# conformr::validate_coverage(b_pm, data, values_from, from_code, to_code, weights) |&gt;
+conformr::use_panel_map(map = b_pm, data=data_in, values_from=gdp_in,
+                        from_code = from, to_code = to,
+                        weights = weight, .suffix = &quot;_out&quot;)</code></pre>
+<pre><code># A tibble: 9 × 2
+  to    gdp_in_out
+  &lt;chr&gt;      &lt;dbl&gt;
+1 AA           400
+2 BB           200
+3 CC           100
+4 DD           100
+5 EE            50
+6 FF            50
+7 GG            30
+8 HH            30
+9 II            40</code></pre>
+</div>
+</div>
+<div id="conditions-for-a-valid-transformations" class="section level2">
+<h2>Conditions for a valid transformations</h2>
+<div id="a-valid-weights" class="section level3 tabset">
+<h3 class="tabset">A: <code>valid-weights</code></h3>
+<p>The sum of weights associated with a given source node/class must sum
+to one. If weights total less than one, some portion of the initial
+source value will be “lost” in the transformation. Conversely, if the
+weights exceed one, then some part of the initial source value is being
+“double” transferred.</p>
+<p><strong>Violations of this condition:</strong></p>
+<div id="as-matrix-row-totals" class="section level4">
+<h4>as Matrix Row totals</h4>
+<ul>
+<li>Let <span class="math inline">\(\bf{Z}\)</span> be a <span
+class="math inline">\(n \times m\)</span> matrix showing the incidence
+between two disjoint sets of nodes (e.g
+<code>from</code>/<code>to</code>)</li>
+<li>Then <span class="math inline">\(\bf{Z}\)</span> is a valid panel
+map if and only if <span class="math inline">\(\bf{Z}\boldsymbol{1} =
+\boldsymbol{1}\)</span> where <span
+class="math inline">\(\boldsymbol{1}\)</span> is a unit vector of length
+<span class="math inline">\(m\)</span></li>
+</ul>
+<pre class="r"><code>## define source (x-to-x) violations
+one_to_more &lt;- c(0.5, 0.7)
+one_to_less &lt;- c(0.3, 0.4)
+wgt_mtx &lt;- bdiag(one_to_one, t(one_to_more), t(one_to_less))
+
+source(here::here(&quot;code/fnc-make-dimnames.R&quot;))
+dimnames(wgt_mtx) &lt;- make_dimnames(wgt_mtx)
+wgt_mtx</code></pre>
+<pre><code>4 x 6 sparse Matrix of class &quot;dgCMatrix&quot;
+  AA BB  CC  DD  EE  FF
+a  1  . .   .   .   .  
+b  .  1 .   .   .   .  
+c  .  . 0.5 0.7 .   .  
+d  .  . .   .   0.3 0.4</code></pre>
+<pre class="r"><code>## validation check
+(sum_wgt_mtx &lt;- wgt_mtx %*% rep_len(1, ncol(wgt_mtx)))</code></pre>
+<pre><code>4 x 1 Matrix of class &quot;dgeMatrix&quot;
+  [,1]
+a  1.0
+b  1.0
+c  1.2
+d  0.7</code></pre>
+<pre class="r"><code>## problem source nodes
+wgt_mtx[!as.vector(sum_wgt_mtx == 1), ]</code></pre>
+<pre><code>2 x 6 sparse Matrix of class &quot;dgCMatrix&quot;
+  AA BB  CC  DD  EE  FF
+c  .  . 0.5 0.7 .   .  
+d  .  . .   .   0.3 0.4</code></pre>
+</div>
+<div id="as-data-frame-group-totals" class="section level4">
+<h4>as Data Frame Group totals</h4>
+<p>The data frame equivalent of the matrix rows total calculation
+involves grouping the non-trival edges (i.e. weights are non-zero), and
+summarising the total weights for each group. Any groups with total
+weights not equal to one require correction.</p>
+<pre class="r"><code>## convert violation matrix back to data frame
+mtx &lt;- wgt_mtx
+
+wgt_df &lt;- mtx |&gt;
+  as.data.frame.array() |&gt;
+  tibble::as_tibble(rownames = &quot;from&quot;) |&gt;
+  tidyr::pivot_longer(cols=c(-from), values_to=&quot;weights&quot;, names_to=&quot;to&quot;) |&gt;
+  dplyr::filter(weights!=0)
+
+## calculate total weights for each source node
+wgt_df |&gt;
+  dplyr::group_by(from) |&gt;
+  dplyr::summarise(t_weights = sum(weights))</code></pre>
+<pre><code># A tibble: 4 × 2
+  from  t_weights
+  &lt;chr&gt;     &lt;dbl&gt;
+1 a           1  
+2 b           1  
+3 c           1.2
+4 d           0.7</code></pre>
+</div>
+</div>
+<div id="a-valid-edgelist" class="section level3">
+<h3>A*: <code>valid-edgelist</code></h3>
+<p>The <code>make_panel_map_equal()</code><a href="#fn1"
+class="footnote-ref" id="fnref1"><sup>1</sup></a> function is basically
+a helper which assigns equal fractional weights to links between source
+and target nodes.</p>
+<pre class="r"><code>b_mtx_long &lt;- b_mtx[-c(1:4, 10), -c(1, 7:9)] |&gt;
+  as.data.frame.array() |&gt;
+  tibble::as_tibble(rownames = &quot;from&quot;) |&gt;
+  tidyr::pivot_longer(cols=c(-from), values_to=&quot;weight&quot;, names_to=&quot;to&quot;)
+
+
+gg &lt;- b_mtx_long |&gt;
+  dplyr::mutate(src_case = dplyr::case_when(weight==1 ~ &quot;one-to-one&quot;,
+                                     weight==0 ~ &quot;NA&quot;,
+                                     weight &lt; 1 ~ &quot;one-to-many&quot;)) |&gt;
+  ggplot(aes(x=to, y=from)) +
+  geom_tile(aes(fill=src_case), col=&quot;grey&quot;) +
+  scale_y_discrete(limits=rev) +
+  scale_fill_brewer() +
+  coord_fixed()  +
+  labs(x = element_blank(), y = element_blank()) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle(&quot;concordance table as matrix&quot;)
+
+gg_weights &lt;- gg + geom_text(data = dplyr::filter(b_mtx_long, weight !=0), aes(label=weight)) +
+  ggtitle(&quot;with equal weights added&quot;)</code></pre>
+<div style="display: flex;">
+<div>
+<p><img src="figure/stylised-example.Rmd/gg-no-weight-martix-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gg-no-weight-martix-1">
+Past versions of gg-no-weight-martix-1.png
+</button>
+</p>
+<div id="fig-gg-no-weight-martix-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div>
+<p><img src="figure/stylised-example.Rmd/gg-equal-weight-matrix-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gg-equal-weight-matrix-1">
+Past versions of gg-equal-weight-matrix-1.png
+</button>
+</p>
+<div id="fig-gg-equal-weight-matrix-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+cb702ba
+</td>
+<td>
+cynthiahqy
+</td>
+<td>
+2022-11-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<p>A necessary condition for this helper to work as intended is that the
+list of un-weighted edges doesn’t have any duplicates.</p>
+</div>
+<div id="b-complete-coverage" class="section level3 tabset">
+<h3 class="tabset">B: <code>complete-coverage</code></h3>
+<p>Conformability is a necessary but not sufficient condition for a
+valid transformation.</p>
+<p>The necessary condition is that the Panel Map used in the
+transformation covers all the Source Codes present in the Source Data.
+When applying the transformation using table joins, the extraneous codes
+are dropped and conformability is implicitly achieved.</p>
+<div id="as-matrix-conformability-condition" class="section level4">
+<h4>as Matrix conformability condition</h4>
+<pre class="r"><code>## add an extra source class
+bad_x &lt;- rep_len(100, nrow(b_mtx) + 1)
+## now we cannot use the panel map
+t(b_mtx) %*% as.matrix(bad_x)</code></pre>
+<pre><code>Error in t(b_mtx) %*% as.matrix(bad_x): Cholmod error &#39;X and/or Y have wrong dimensions&#39; at file ../MatrixOps/cholmod_sdmult.c, line 88</code></pre>
+</div>
+<div id="as-set-comparison" class="section level4">
+<h4>as Set comparison</h4>
+</div>
+</div>
+<div id="c-complete-data-in" class="section level3">
+<h3>C: <code>complete-data-in</code></h3>
+<p>NA values should be dealt with explicitly before applying a panel map
+transformation.</p>
+</div>
+</div>
+<div id="properties-of-valid-transformations" class="section level2">
+<h2>Properties of valid transformations</h2>
+<p>If all three conditions (A, B, C) are met, then:</p>
+<ul>
+<li>sum of <code>value_in</code> and <code>value_out</code> will be
+equal</li>
+<li>OTHER SMELL CHECKS??</li>
+</ul>
+</div>
+<div id="aside-converting-between-representations"
+class="section level2 tabset">
+<h2 class="tabset">ASIDE: Converting between Representations</h2>
+<p>PM &lt;–&gt; Matrix &lt;– iGraph –&gt; PM</p>
+<div id="panel-map-to-matrix" class="section level3">
+<h3>panel map to Matrix</h3>
+<pre class="r"><code>source(here::here(&#39;R/pm_to_matrix.R&#39;))
+(pm2mtx &lt;- pm_to_matrix(b_pm, to=to, weights=weight))</code></pre>
+<pre><code>10 x 9 sparse Matrix of class &quot;dgCMatrix&quot;
+  AA BB CC DD  EE  FF  GG  HH  II
+a  1  .  .  . .   .   .   .   .  
+b  1  .  .  . .   .   .   .   .  
+c  1  .  .  . .   .   .   .   .  
+d  1  .  .  . .   .   .   .   .  
+e  .  1  .  . .   .   .   .   .  
+f  .  1  .  . .   .   .   .   .  
+g  .  .  1  . .   .   .   .   .  
+h  .  .  .  1 .   .   .   .   .  
+i  .  .  .  . 0.5 0.5 .   .   .  
+j  .  .  .  . .   .   0.3 0.3 0.4</code></pre>
+</div>
+<div id="panel-map-to-igraph-broken" class="section level3">
+<h3>panel map to iGraph (broken)</h3>
+<p>Vertex metadata errors can be avoided by going from data frame to
+matrix first (as seen above)</p>
+<pre class="r"><code>## reconstruct node/vertices list
+b_pm_nodes &lt;- tidyr::pivot_longer(b_pm[, 1:2], from:to, names_to = &quot;type&quot;, values_to = &quot;name&quot;) %&gt;%
+  dplyr::distinct() %&gt;%
+  dplyr::arrange(type) %&gt;%
+  as.data.frame()
+
+rownames(b_pm_nodes) &lt;- b_pm_nodes$name
+  
+b_pm2igraph &lt;- igraph::graph_from_data_frame(b_pm, directed = TRUE, vertices = b_pm_nodes)</code></pre>
+<pre><code>Error in igraph::graph_from_data_frame(b_pm, directed = TRUE, vertices = b_pm_nodes): Duplicate vertex names</code></pre>
+<pre class="r"><code>plot(b_pm2igraph, layout = layout_as_bipartite)</code></pre>
+<pre><code>Error in plot(b_pm2igraph, layout = layout_as_bipartite): object &#39;b_pm2igraph&#39; not found</code></pre>
+</div>
+<div id="igraph-to-long-data-frame" class="section level3">
+<h3>igraph to long data frame</h3>
+<pre class="r"><code>b_igraph |&gt; igraph::as_long_data_frame()</code></pre>
+<pre><code>   from to weight from_type from_name to_type to_name
+1     1 11    1.0     FALSE         a    TRUE      AA
+2     2 11    1.0     FALSE         b    TRUE      AA
+3     3 11    1.0     FALSE         c    TRUE      AA
+4     4 11    1.0     FALSE         d    TRUE      AA
+5     5 12    1.0     FALSE         e    TRUE      BB
+6     6 12    1.0     FALSE         f    TRUE      BB
+7     7 13    1.0     FALSE         g    TRUE      CC
+8     8 14    1.0     FALSE         h    TRUE      DD
+9     9 15    0.5     FALSE         i    TRUE      EE
+10    9 16    0.5     FALSE         i    TRUE      FF
+11   10 17    0.3     FALSE         j    TRUE      GG
+12   10 18    0.3     FALSE         j    TRUE      HH
+13   10 19    0.4     FALSE         j    TRUE      II</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+[1] ggbump_0.1.0    dplyr_1.0.10    tidygraph_1.2.2 ggraph_2.1.0   
+[5] ggplot2_3.3.6   igraph_1.3.5    Matrix_1.4-1    workflowr_1.7.0
+
+loaded via a namespace (and not attached):
+ [1] ggrepel_0.9.1       Rcpp_1.0.9          here_1.0.1         
+ [4] lattice_0.20-45     tidyr_1.2.1         getPass_0.2-2      
+ [7] ps_1.7.1            assertthat_0.2.1    rprojroot_2.0.3    
+[10] digest_0.6.30       utf8_1.2.2          ggforce_0.4.1      
+[13] wesanderson_0.3.6   R6_2.5.1            evaluate_0.16      
+[16] httr_1.4.3          highr_0.9           pillar_1.8.1       
+[19] rlang_1.0.6         data.table_1.14.2   rstudioapi_0.13    
+[22] whisker_0.4         callr_3.7.0         jquerylib_0.1.4    
+[25] rmarkdown_2.14      labeling_0.4.2      stringr_1.4.1      
+[28] polyclip_1.10-4     munsell_0.5.0       compiler_4.2.1     
+[31] httpuv_1.6.5        xfun_0.31           pkgconfig_2.0.3    
+[34] htmltools_0.5.2     tidyselect_1.2.0    tibble_3.1.8       
+[37] gridExtra_2.3       graphlayouts_0.8.3  viridisLite_0.4.1  
+[40] fansi_1.0.3         withr_2.5.0         later_1.3.0        
+[43] MASS_7.3-57         grid_4.2.1          jsonlite_1.8.2     
+[46] gtable_0.3.1        lifecycle_1.0.3     DBI_1.1.3          
+[49] git2r_0.30.1        magrittr_2.0.3      scales_1.2.1       
+[52] cli_3.4.1           stringi_1.7.8       conformr_0.0.0.9001
+[55] farver_2.1.1        renv_0.15.5         viridis_0.6.2      
+[58] fs_1.5.2            promises_1.2.0.1    bslib_0.3.1        
+[61] ellipsis_0.3.2      generics_0.1.3      vctrs_0.4.2        
+[64] cowplot_1.1.1       RColorBrewer_1.1-3  tools_4.2.1        
+[67] glue_1.6.2          tweenr_2.0.2        purrr_0.3.5        
+[70] processx_3.6.1      fastmap_1.1.0       yaml_2.3.5         
+[73] colorspace_2.0-3    knitr_1.39          sass_0.4.2.9000    </code></pre>
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>other possible names:
+<code>equal_pm_from_nodes()</code><a href="#fnref1"
+class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

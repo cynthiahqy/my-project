@@ -1,5 +1,3 @@
-source("R/edges.R")
-
 ## matrix
 edges_wide <- edges |>
   tidyr::pivot_wider(names_from=to, values_from=weighted)

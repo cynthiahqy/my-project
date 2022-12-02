@@ -1,0 +1,144 @@
+---
+title: "sketch-example"
+author: "cynthiahqy"
+date: "2022-11-22"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+For SoDa presentation
+
+## Setup Sketch Example
+
+```{r sketch-example-data-in}
+# sample data
+df_data_in <- tibble::tribble(~source_code, ~value_in,
+                                "x1111", 100,
+                                "x2222", 30,
+                                "x3333", 20,
+                                "x4444", 80,
+                                "x5555", 30,
+                                "x6666", 40,
+                                "x7777", 15
+                                )
+```
+
+```{r sketch-example-pm}
+df_concordance <- tibble::tribble(~source_code, ~target_code,
+                                "x1111", "A1",
+                                "x2222", "B2",
+                                "x2222", "B3",
+                                "x3333", "C5",
+                                "x4444", "C5",
+                                "x5555", "D6",
+                                "x5555", "D7",
+                                "x6666", "D6",
+                                "x6666", "D7",
+                                "x7777", "D6"
+                                )
+
+(df_pm <- df_concordance |> 
+  conformr::make_panel_map_equal(code_in = source_code, code_out = target_code, "weights"))
+```
+
+```{r}
+(data_out <-
+  conformr::use_panel_map(map = df_pm,
+                data = df_data_in, values_from = value_in,
+                from_code = source_code, to_code = target_code,
+                weights = weights, .suffix = "_out"))
+```
+
+## Visualisations
+
+```{r plt-pm}
+# viz panel map
+plt_panel_map <- function(pm, from, to, weighted){
+  require(dplyr)
+  require(ggplot2)
+  require(ggbump)
+  edges <- pm |>
+    transmute(from = {{from}}, to = {{to}}, weighted = {{weighted}})  
+  
+  ## calculate positions for nodes
+  from_nodes <- distinct(edges, from) |> mutate(from_y = row_number())
+  to_nodes <- distinct(edges, to) |> mutate(to_y = row_number() - 1 + 0.5)
+  
+  ## generate df for ggplot
+  df <- edges |>
+    ## generate mapping type/case variables
+    group_by(from) |> 
+    mutate(n_dest = n()) |>
+    ungroup() |>
+    group_by(to) |> 
+    mutate(n_origin = n(),
+           min_weight = min(weighted)) |>
+    ungroup() |>
+    mutate(value_case = case_when(n_dest == 1 ~ "one-to-one",
+                                  n_dest > 1 ~ "one-to-many")) |>
+    left_join(tribble(~value_case, ~line_type, ~font_type,
+                      "one-to-one", "solid", "bold",
+                      "one-to-many", "dashed", "italic"),
+              by = "value_case") |>
+    mutate(from_case = case_when(n_origin == 1 ~ "one-from-one",
+                                 n_origin > 1 ~ "one-from-many",
+                                 n_origin < 1 ~ "ERROR! origin codes < 1"),
+           dest_case = case_when(min_weight < 1 ~ "contains split",
+                                 min_weight == 1 ~ "aggregation only",
+                                 min_weight > 1 ~ "ERROR! weight > 1")
+    ) |> 
+    ## add y-coordinates
+    left_join(from_nodes, by = "from") |>
+    left_join(to_nodes, by = "to") |>
+    ## add x-coordinates
+    mutate(from_x = 0,
+           to_x = 5) |>
+    ## give each from-out instruction a unique id
+    mutate(idx = row_number())
+  
+plt_uw <- df |>
+  ggplot(aes(x = from_x, xend = to_x, y = from_y, yend = to_y, group = idx)) +
+  ## edges as sigmoid curves with line type
+  geom_sigmoid(aes(linetype = I(line_type))) +
+  # to/from nodes
+  scale_y_reverse() +
+  geom_text(aes(x = from_x - 0.5, label=from, fontface=I(font_type))) +
+  geom_label(aes(x = to_x + 0.5, y = to_y, label=to, fill = dest_case)) +
+  # edge labels
+  geom_label(data = filter(df, value_case == "one-to-many"),
+             aes(x = (((from_x + to_x) / 2) + to_x) / 2,
+                 y = to_y,
+                 label = weighted)) +
+  geom_label(data = filter(df, value_case == "one-to-one"),
+             aes(x = (from_x + to_x) / 4,
+                 y = from_y,
+                 label = weighted)) +
+  # theme
+  scale_fill_manual(values = wesanderson::wes_palette(n = 4, name = "GrandBudapest2")) +
+  scale_color_manual(values = wesanderson::wes_palette(n = 4, name = "GrandBudapest2")) +
+  cowplot::theme_minimal_grid(font_size = 14, line_size = 0) +
+  theme(legend.position = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        plot.background = element_rect(fill = "white")) +
+  labs(x = NULL, y = NULL, fill = "Output Relation")
+
+return(plt_uw)
+}
+
+df_pm |>
+  plt_panel_map(from = source_code, to = target_code, weighted = weights)
+```
+
+### without code...
+
+## Pretty Tables
+
+Sorted by target_code
+
+```{r}
+df_pm |>
+  dplyr::arrange(target_code)
+```

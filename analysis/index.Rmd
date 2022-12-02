@@ -1,0 +1,15 @@
+---
+title: "Home"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+Vignette-like pages for explaining things about the conformr package
+
+- [viz-country-concord](viz-country-concord.html)
+- [stylized-mtx-example](stylised-example.html)
+- [sketch-example](sketch-example.html)

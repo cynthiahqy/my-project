@@ -1,7 +1,5 @@
 pacman::p_load(tibble, dplyr, tidyr, ggplot2, ggbump)
 
-source("R/edges.R")
-
 nodes <- pivot_longer(edges[, 1:2], from:to, values_to = "country") |>
   distinct(country)
 
@@ -75,9 +73,11 @@ plt_uw <- df |>
         plot.background = element_rect(fill = "white")) +
   labs(x = NULL, y = NULL, fill = "Target", fontface="Source")
 
+ggsave(here::here("docs/plots/ggbump-sigmoid-graph-edges.jpg"), dpi=600)
+
 return(plt_uw)
 
-#ggsave("ggbump-sigmoid-graph-edges.jpg", dpi=1000)
+
 
 
 
