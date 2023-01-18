@@ -1,0 +1,66 @@
+---
+title: "factor-xmaps"
+author: "cynthiahqy"
+date: "2023-01-18"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Background
+
+-   Factors are the base R S3 class for categorical variables
+-   Factors are integer vectors with a levels attribute.
+-   forcats provides convenience and safe-guarded functions for working with factors
+
+## Visualisation Idea
+
+-   Take levels before and after transformation, generate and visualise the implicit `xmap`.
+
+```{r}
+fct <- factor(c("a", "b", "b", "c", "d"))
+
+after_other <- fct |>
+  forcats::fct_other(keep = c("a", "b"), other_level = "other")
+stopifnot(identical(after_other, factor(c("a", "b", "b", "other", "other"))))
+```
+
+For reference this is the mapping:
+
+```{r}
+xmap_ref <-
+  tibble::tribble(~key1, ~key2, ~weight,
+                  "a", "a", 1,
+                  "b", "b", 1,
+                  "c", "other", 1,
+                  "d", "other", 1)
+```
+
+We can probably only extract the mapping if there is at most one target node involved in a many-to-one mapping.
+
+```{r}
+collapse_xmap <- tibble::tibble(
+  key1 = setdiff(fct, after_other),
+  key2= setdiff(after_other, fct)
+  )
+
+preserve_xmap <- tibble::tibble(
+  key1 = intersect(fct, after_other),
+  key2 = key1
+)
+
+xmap_set <- dplyr::bind_rows(preserve_xmap, collapse_xmap) |>
+  dplyr::mutate(weight = 1)
+
+identical(xmap_set, xmap_ref)
+```
+
+Visualising it
+
+```{r code=readLines('R/plt_pm_df.R')}
+
+```
+
+```{r}
+plt_pm_df(xmap_set, from = key1, to = key2, weights = weight)
+```
