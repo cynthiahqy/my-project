@@ -10,6 +10,7 @@ editor_options:
 
 Vignette-like pages for explaining things about the conformr package
 
-- [viz-country-concord](viz-country-concord.html)
-- [stylized-mtx-example](stylised-example.html)
-- [sketch-example](sketch-example.html)
+-   [viz-country-concord](viz-country-concord.html)
+-   [stylized-mtx-example](stylised-example.html)
+-   [sketch-example](sketch-example.html)
+-   [factor-xmaps](factor-xmaps.html)
