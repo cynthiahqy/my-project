@@ -1,0 +1,100 @@
+---
+title: "graph-packages"
+author: "cynthiahqy"
+date: "2023-01-18"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## r igraph
+
+-   `make_bipartite_graph()`:
+    -   set indicator and links format are both quite awkward for xmap
+    -   not input friendly
+    -   not directed by default
+-   `sample_bipartite()` for randomly generating
+
+```{r igraph-bipartite}
+library(igraph)
+
+type_vec <- rep_len(0:1, 10)
+links <- c(1, 2, 1, 6, 3, 4, 5, 6)
+g <- make_bipartite_graph(type_vec, directed = TRUE)
+print_all(g, v = TRUE)
+
+type_vec_named <- setNames(type_vec, letters[1:10])
+g <- make_bipartite_graph(type_vec_named, links)
+print_all(g, v = TRUE)
+```
+
+-   `graph_from_edgelist()`:
+    -   only accepts 2-column matrix, no way to pass through weights.
+-   `graph_from_dataframe()`:
+    -   takes in arbitrary number of columns, but uses first two columns as `from`-`to` node lists
+    -   remaining columns become edge attributes, but only columns named `weight` are recognised as weights (for purposes of `is_weighted()`)
+    -   doesn't make bipartite graphs
+
+```{r}
+links <- tibble::tribble(
+  ~from, ~to, ~weights,
+  "A1", "B01", 0.5,
+  "A1", "B02", 0.5,
+  "A2", "B03", 1,
+  "A3", "B04", 1,
+  "A4", "B04", 1
+)
+# directed graph
+g_xmap_DN <- igraph::graph_from_edgelist(as.matrix(links[1:2]),
+  directed = TRUE
+)
+# directed weighted graph
+g_xmap_DNW <-
+  links |>
+  dplyr::rename(weight = weights) |> ## rename to make weighted graph
+  igraph::graph_from_data_frame()
+
+igraph::print_all(g_xmap_DNW, edge = TRUE)
+# directed weighted bipartite
+edges <- dplyr::bind_rows(
+  tibble::tibble(node = unique(links$from), type = TRUE),
+  tibble::tibble(node = unique(links$to), type = FALSE)
+)
+g_xmap_DNWB <- links |>
+  dplyr::rename(weight = weights) |>
+  igraph::graph_from_data_frame(vertices = edges)
+```
+
+ideal interface:
+
+```{r}
+digraph_from_dataframe <- function(d, from, to, weights) {
+  from_set <- unique(d[, from])
+  to_set <- unique(d[, to])
+
+  bipartite <- !isFALSE(intersect(from_set, to_set))
+
+  if (bipartite) {
+    edge_type <- dplyr::bind_rows(
+      tibble::tibble(node = , type = TRUE),
+      tibble::tibble(node = unique(links$to), type = FALSE)
+    )
+  } else {
+    edge_type = NULL
+  }
+
+  d |>
+    dplyr::select(from, to, weight = weights) |>
+    igraph::graph_from_data_frame(d, directed = TRUE, vertices = edge_type)
+}
+```
+
+## tidygraph
+
+-   `create_bipartite()`:
+
+```{r}
+library(tidygraph)
+create_bipartite(2, 2, directed = TRUE, mode = "in")
+create_bipartite(2, 2, directed = TRUE, mode = "out")
+```
