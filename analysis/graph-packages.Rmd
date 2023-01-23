@@ -20,7 +20,7 @@ library(igraph)
 
 type_vec <- rep_len(0:1, 10)
 links <- c(1, 2, 1, 6, 3, 4, 5, 6)
-g <- make_bipartite_graph(type_vec, directed = TRUE)
+g <- make_bipartite_graph(type_vec, links, directed = TRUE)
 print_all(g, v = TRUE)
 
 type_vec_named <- setNames(type_vec, letters[1:10])
