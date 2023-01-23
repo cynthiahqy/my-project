@@ -14,3 +14,5 @@ Vignette-like pages for explaining things about the conformr package
 -   [stylized-mtx-example](stylised-example.html)
 -   [sketch-example](sketch-example.html)
 -   [factor-xmaps](factor-xmaps.html)
+-   [graph-packages](graph-package.html)
+
