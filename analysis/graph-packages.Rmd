@@ -65,6 +65,16 @@ g_xmap_DNWB <- links |>
   igraph::graph_from_data_frame(vertices = edges)
 ```
 
+-   `igraph::is_weighted()` only returns true if there is a "weight" column
+    -   [stackoverflow](https://stackoverflow.com/questions/51856706/weighted-graph-from-a-data-frame) \> In igraph edge weights are represented via an edge attribute, called 'weight'. The is_weighted function only checks that such an attribute exists. (It does not even checks that it is a numeric edge attribute.)
+
+```{r}
+links |>
+  dplyr::mutate(weight = "cake") |>
+  igraph::graph_from_data_frame(vertices = edges) |>
+  igraph::is.weighted()
+```
+
 ideal interface:
 
 ```{r}
@@ -91,10 +101,17 @@ digraph_from_dataframe <- function(d, from, to, weights) {
 
 ## tidygraph
 
--   `create_bipartite()`:
+-   `create_bipartite()`: too generic/unstructured
 
 ```{r}
 library(tidygraph)
 create_bipartite(2, 2, directed = TRUE, mode = "in")
 create_bipartite(2, 2, directed = TRUE, mode = "out")
+```
+
+-   `as_tbl_graph(igraph)` -- just subclasses `igraph` into `tbl_graph`:
+
+```{r}
+tidygraph::as_tbl_graph(g_xmap_DNWB)
+
 ```
